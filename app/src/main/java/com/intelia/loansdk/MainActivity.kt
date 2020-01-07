@@ -52,8 +52,13 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
         mainVM = ViewModelProviders.of(this, VMFactory).get(MainVM::class.java)
 
-        mainVM.smsDataPoint.observe(this, Observer {
-            Log.e("size",it.size.toString())
+        mainVM.smsDataPoint.observe(this, Observer { res ->
+
+            res.forEach { dataPoint ->
+                dataPoint.sms.forEach {
+                    Log.e(dataPoint.category, it.body)
+                }
+            }
             endLoading()
         })
 

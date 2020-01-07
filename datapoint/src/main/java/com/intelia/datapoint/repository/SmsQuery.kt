@@ -7,6 +7,7 @@ import com.intelia.datapoint.models.Sms
 import com.intelia.datapoint.models.SmsDataPoint
 import io.reactivex.Observable
 import java.util.*
+import java.util.regex.Pattern
 import kotlin.collections.HashMap
 
 open class SmsQuery {
@@ -33,13 +34,17 @@ open class SmsQuery {
                                 if (numberMatch) {
                                     return@inner
                                 }
-                                numberMatch = number.matches(Regex.fromLiteral(it))
+                                val p = Pattern.compile(it)
+                                val m = p.matcher(number)
+                                numberMatch = m.matches()
                             }
                             dataPointCategory.contentFilter.forEach inner@{
                                 if (contentMatch) {
                                     return@inner
                                 }
-                                contentMatch = number.matches(Regex.fromLiteral(it))
+                                val p = Pattern.compile(it)
+                                val m = p.matcher(body)
+                                contentMatch = m.matches()
                             }
                             if (numberMatch && contentMatch) {
                                 if(smsList.containsKey(dataPointCategory.category))
