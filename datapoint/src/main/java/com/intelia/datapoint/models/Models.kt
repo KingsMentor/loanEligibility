@@ -9,13 +9,15 @@ enum class DataPointType {
 
 data class DataPointCategory(
     val category: String,
-    val validation: String,
+    val nameFilter: MutableList<String>,
+    val contentFilter: MutableList<String>,
     val dataPointType: DataPointType
 )
 
 data class Sms(val number: String, val body: String, var date: Date)
 
 data class SmsDataPoint(val category: String, var sms: MutableList<Sms>)
+
 
 data class RelevantApps(var sms: MutableList<String>)
 

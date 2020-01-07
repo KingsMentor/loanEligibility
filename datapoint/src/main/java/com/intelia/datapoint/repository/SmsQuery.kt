@@ -2,18 +2,22 @@ package com.intelia.datapoint.repository
 
 import android.content.Context
 import android.provider.Telephony
+import com.intelia.datapoint.models.FilterParams
 import com.intelia.datapoint.models.Sms
+import com.intelia.datapoint.models.SmsDataPoint
 import io.reactivex.Observable
 import java.util.*
+import kotlin.collections.HashMap
 
 open class SmsQuery {
 
-    fun inboxSMS(context: Context): Observable<MutableList<Sms>> {
-        return Observable.create<MutableList<Sms>> { emitter ->
+    fun smsSearch(context: Context): Observable<MutableList<SmsDataPoint>> {
+        return Observable.create<MutableList<SmsDataPoint>> { emitter ->
             val cr = context.contentResolver
+
             val c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null)
             if (c != null) {
-                val smsList = mutableListOf<Sms>()
+                val smsList = HashMap<String,MutableList<Sms>>()
                 while (c.moveToNext()) {
                     val smsDate = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE))
                     val number = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS))
@@ -21,11 +25,36 @@ open class SmsQuery {
                     val dateFormat = Date(smsDate.toLong())
                     val type =
                         Integer.parseInt(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.TYPE)))
-                    if (type == Telephony.Sms.MESSAGE_TYPE_INBOX)
-                        smsList.add(Sms(number, body, dateFormat))
+                    if (type == Telephony.Sms.MESSAGE_TYPE_INBOX) {
+                        FilterParams.query.forEach outter@{ dataPointCategory ->
+                            var numberMatch = false
+                            var contentMatch = false
+                            dataPointCategory.nameFilter.forEach inner@{
+                                if (numberMatch) {
+                                    return@inner
+                                }
+                                numberMatch = number.matches(Regex.fromLiteral(it))
+                            }
+                            dataPointCategory.contentFilter.forEach inner@{
+                                if (contentMatch) {
+                                    return@inner
+                                }
+                                contentMatch = number.matches(Regex.fromLiteral(it))
+                            }
+                            if (numberMatch && contentMatch) {
+                                if(smsList.containsKey(dataPointCategory.category))
+                                    smsList[dataPointCategory.category]?.add(Sms(number, body, dateFormat))
+                                else {
+                                    smsList[dataPointCategory.category] = mutableListOf(Sms(number, body, dateFormat))
+                                }
+                            }
+                            return@outter
+                        }
+                    }
+
                 }
                 c.close()
-                emitter.onNext(smsList)
+                emitter.onNext(smsList.map { SmsDataPoint(it.key,it.value) }.toMutableList())
             }
             emitter.onComplete()
         }
