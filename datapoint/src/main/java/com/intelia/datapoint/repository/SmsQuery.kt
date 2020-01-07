@@ -9,6 +9,7 @@ import io.reactivex.Observable
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.HashMap
+import kotlin.collections.LinkedHashMap
 
 open class SmsQuery {
 
@@ -18,7 +19,7 @@ open class SmsQuery {
 
             val c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null)
             if (c != null) {
-                val smsList = HashMap<String,MutableList<Sms>>()
+                val smsList = LinkedHashMap<String,MutableList<Sms>>()
                 while (c.moveToNext()) {
                     val smsDate = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE))
                     val number = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS))
@@ -35,7 +36,7 @@ open class SmsQuery {
                                     return@inner
                                 }
                                 val p = Pattern.compile(it)
-                                val m = p.matcher(number)
+                                val m = p.matcher(number.toLowerCase())
                                 numberMatch = m.matches()
                             }
                             dataPointCategory.contentFilter.forEach inner@{
@@ -43,7 +44,7 @@ open class SmsQuery {
                                     return@inner
                                 }
                                 val p = Pattern.compile(it)
-                                val m = p.matcher(body)
+                                val m = p.matcher(body.replace("\n"," ").toLowerCase())
                                 contentMatch = m.matches()
                             }
                             if (numberMatch && contentMatch) {

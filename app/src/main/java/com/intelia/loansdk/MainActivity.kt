@@ -10,10 +10,13 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.intelia.loansdk.vm.MainVM
 import com.intelia.loansdk.vm.VMFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import pub.devrel.easypermissions.EasyPermissions
+import xyz.belvi.myapplication.AlertRecyclerAdapter
 
 
 class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
@@ -22,9 +25,8 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     val RC_PHONE = 1
     lateinit var progressDialog: ProgressDialog
 
+    private  val smsAdapter = AlertRecyclerAdapter(mutableListOf())
     private fun startLoading(message: String? = null) {
-        toggleNoMessageView(false)
-        toggleResponseView(false)
         if (message != null) progressDialog.setMessage(message)
         progressDialog.show()
     }
@@ -33,13 +35,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         progressDialog.dismiss()
     }
 
-    private fun toggleResponseView(show: Boolean) {
-        eligibility_response_view.visibility = if (show) View.VISIBLE else View.INVISIBLE
-    }
 
-    private fun toggleNoMessageView(show: Boolean) {
-        no_messages_text.visibility = if (show) View.VISIBLE else View.INVISIBLE
-    }
 
     private fun smsQuery() {
         startLoading()
@@ -49,18 +45,18 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        sms_list.layoutManager = (LinearLayoutManager(this,
+            RecyclerView.VERTICAL,false))
+        sms_list.adapter = smsAdapter
 
         mainVM = ViewModelProviders.of(this, VMFactory).get(MainVM::class.java)
 
         mainVM.smsDataPoint.observe(this, Observer { res ->
-
-            res.forEach { dataPoint ->
-                dataPoint.sms.forEach {
-                    Log.e(dataPoint.category, it.body)
-                }
-            }
+            smsAdapter.update(res)
             endLoading()
         })
+
+
 
         setupProgressDialog()
         EasyPermissions.requestPermissions(
@@ -77,9 +73,6 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         progressDialog.setMessage("Calculating Eligibility...")
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

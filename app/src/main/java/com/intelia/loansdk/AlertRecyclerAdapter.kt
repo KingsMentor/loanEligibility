@@ -3,14 +3,22 @@ package xyz.belvi.myapplication
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.intelia.datapoint.models.SmsDataPoint
 import com.intelia.loansdk.R
-import kotlinx.android.synthetic.main.alert_item.view.*
+import kotlinx.android.synthetic.main.alert_item.view.title
+import kotlinx.android.synthetic.main.category_item.view.*
 
 open class AlertRecyclerAdapter(val smsList: MutableList<SmsDataPoint>) : RecyclerView.Adapter<AlertRecyclerAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.alert_item, parent, false))
+        return Holder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.category_item,
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
@@ -29,8 +37,10 @@ open class AlertRecyclerAdapter(val smsList: MutableList<SmsDataPoint>) : Recycl
 
     class Holder(iteview: View) : RecyclerView.ViewHolder(iteview) {
         fun bind(sms: SmsDataPoint) {
-//            itemView.title.text = sms.number
-//            itemView.body.text = sms.body
+            itemView.title.text = sms.category
+            val adapter = RecyclerAdapter(sms.sms)
+            itemView.body_view.layoutManager = (LinearLayoutManager(itemView.context,RecyclerView.VERTICAL,false))
+            itemView.body_view.adapter = adapter
         }
     }
 }
