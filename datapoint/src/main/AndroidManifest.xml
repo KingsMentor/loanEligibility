@@ -1,2 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.intelia.datapoint" />
+    package="com.intelia.datapoint" >
+
+    <uses-permission android:name="android.permission.RECEIVE_SMS" android:protectionLevel="signature" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+
+</manifest>
