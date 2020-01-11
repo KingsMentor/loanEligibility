@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
 
         setupProgressDialog()
+
         EasyPermissions.requestPermissions(
             this,
             getString(R.string.app_name),
