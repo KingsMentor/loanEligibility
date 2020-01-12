@@ -17,8 +17,8 @@ open class MainVM(private val usecase: QueryUsecase) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
     val smsDataPoint = MutableLiveData<MutableList<SmsDataPoint>>()
     val eligibility = MutableLiveData<Eligibility>()
-    fun querySms(context: Context) {
-        usecase.smsData(context)
+    fun querySms() {
+        usecase.smsData()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -26,8 +26,9 @@ open class MainVM(private val usecase: QueryUsecase) : ViewModel() {
             }
     }
 
-    fun calculateEligibility(context: Context) {
-        usecase.calculateEligibility(context)
+    fun calculateEligibility() {
+
+        usecase.calculateEligibility()
             .doOnError {
                 eligibility.postValue(null)
             }

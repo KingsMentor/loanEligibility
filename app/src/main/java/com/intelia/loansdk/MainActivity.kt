@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
     private fun smsQuery() {
         startLoading()
-        mainVM.querySms(this)
-        mainVM.calculateEligibility(this)
+        mainVM.querySms()
+        mainVM.calculateEligibility()
     }
 
 
