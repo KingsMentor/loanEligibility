@@ -2,15 +2,14 @@ package com.intelia.datapoint.usecase
 
 import android.content.Context
 import com.intelia.datapoint.models.Eligibility
-import com.intelia.datapoint.models.HistoryStatus
 import com.intelia.datapoint.models.RelevantApps
 import com.intelia.datapoint.models.SmsDataPoint
 import io.reactivex.Observable
 
 interface QueryUsecase {
-    fun smsData(context: Context): Observable<MutableList<SmsDataPoint>>
+    fun smsData(): Observable<MutableList<SmsDataPoint>>
 
-    fun calculateEligibility(context: Context): Observable<Eligibility>
+    fun calculateEligibility(): Observable<Eligibility>
 
     fun relevantApp(): RelevantApps
 

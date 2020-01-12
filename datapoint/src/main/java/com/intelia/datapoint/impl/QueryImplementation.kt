@@ -10,13 +10,14 @@ import java.util.*
 import java.util.regex.Pattern
 
 internal class QueryImplementation(private val api: AnalysisApi = ApiClient.retrofit.create(AnalysisApi::class.java)) {
+
     fun calculateEligibility(context: Context): Observable<Eligibility> {
         return SmsQuery().smsSearch(context)
             .map {
-                val body = mutableListOf<DataRequest>()
+                val body = mutableListOf<Request>()
                 it.forEach { sdp ->
                     body.addAll(sdp.sms.map {
-                        DataRequest(
+                        Request(
                             sdp.category,
                             it.number,
                             it.body,
@@ -27,15 +28,13 @@ internal class QueryImplementation(private val api: AnalysisApi = ApiClient.retr
                 }
                 body
             }.map {
-                it.addAll(relevantApp().apps.map { DataRequest("", it, "", Date(), false) })
+                it.addAll(relevantApp().apps.map { Request("", it, "", Date(), false) })
                 it
-            }.flatMap { api.calculateEligibility(it) }
+            }.flatMap { api.calculateEligibility(DataRequest(it)) }
             .map {
-                it.data
+                it
             }
     }
-
-
 
     fun smsData(context: Context): Observable<MutableList<SmsDataPoint>> {
         return SmsQuery().smsSearch(context)

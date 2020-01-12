@@ -17,7 +17,7 @@ data class DataPointCategory(
 
 data class Sms(val number: String, val body: String, var date: Date)
 
-data class DataRequest(
+data class Request(
     val category: String,
     val title: String,
     val data: String,
@@ -25,7 +25,11 @@ data class DataRequest(
     var isSms: Boolean
 )
 
-data class Eligibility(
+data class DataRequest(
+    val data: MutableList<Request>
+)
+
+open class Eligibility(
     val eligible: Boolean = false,
     @SerializedName("expense-rate") val expense_rate: Double = 0.0,
     @SerializedName("hold-money-rate") val hold_money_rate: Double = 0.0,

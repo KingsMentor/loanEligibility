@@ -3,15 +3,15 @@ package com.intelia.loansdk
 
 import android.app.ProgressDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.intelia.datapoint.impl.QueryImpl
 import com.intelia.loansdk.vm.MainVM
 import com.intelia.loansdk.vm.VMFactory
 import kotlinx.android.synthetic.main.activity_main.*
@@ -40,7 +40,9 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     private fun smsQuery() {
         startLoading()
         mainVM.querySms(this)
+        mainVM.calculateEligibility(this)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,10 +51,21 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
             RecyclerView.VERTICAL,false))
         sms_list.adapter = smsAdapter
 
+
+
         mainVM = ViewModelProviders.of(this, VMFactory).get(MainVM::class.java)
 
         mainVM.smsDataPoint.observe(this, Observer { res ->
             smsAdapter.update(res)
+            endLoading()
+        })
+        mainVM.eligibility.observe(this, Observer { res ->
+            res?.let {
+                textView.text = Gson().toJson(res)
+            }?:run{
+                textView.text = "error fetching eligibility"
+            }
+
             endLoading()
         })
 
