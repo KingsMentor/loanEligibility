@@ -9,6 +9,23 @@ object FilterParams {
         DataPointCategory("Firstbank_Cr", mutableListOf("^.*firstbank.*\$"), mutableListOf("^.*credited.*\$"),DataPointType.SMS),
         DataPointCategory("Firstbank_Dr", mutableListOf("^.*firstbank.*\$"), mutableListOf("^.*debited.*\$"),DataPointType.SMS),
         DataPointCategory("Zenith_Dr", mutableListOf("^.*zenithbank.*\$"), mutableListOf("^.*dr amt:.*\$"),DataPointType.SMS),
-        DataPointCategory("Zenith_Cr", mutableListOf("^.*zenithbank.*\$"), mutableListOf("^.*cr amt:.*\$"),DataPointType.SMS)
+        DataPointCategory(
+            "Zenith_Cr",
+            mutableListOf("^.*zenithbank.*\$"),
+            mutableListOf("^.*cr amt:.*\$"),
+            DataPointType.SMS
+        ),
+        DataPointCategory(
+            "Diamond_Dr",
+            mutableListOf("^.*diamond.*\$"),
+            mutableListOf("^.*debit.*\$"),
+            DataPointType.SMS
+        ),
+        DataPointCategory(
+            "Diamond_Cr",
+            mutableListOf("^.*diamond.*\$"),
+            mutableListOf("^.*credit.*\$"),
+            DataPointType.SMS
+        )
     )
 }
