@@ -53,21 +53,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
 
 
-        mainVM = ViewModelProviders.of(this, VMFactory).get(MainVM::class.java)
 
-        mainVM.smsDataPoint.observe(this, Observer { res ->
-            smsAdapter.update(res)
-            endLoading()
-        })
-        mainVM.eligibility.observe(this, Observer { res ->
-            res?.let {
-                textView.text = Gson().toJson(res)
-            }?:run{
-                textView.text = "error fetching eligibility"
-            }
-
-            endLoading()
-        })
 
 
 
@@ -102,6 +88,21 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        mainVM = ViewModelProviders.of(this, VMFactory).get(MainVM::class.java)
+
+        mainVM.smsDataPoint.observe(this, Observer { res ->
+            smsAdapter.update(res)
+            endLoading()
+        })
+        mainVM.eligibility.observe(this, Observer { res ->
+            res?.let {
+                textView.text = Gson().toJson(res)
+            }?:run{
+                textView.text = "error fetching eligibility"
+            }
+
+            endLoading()
+        })
         smsQuery()
     }
 

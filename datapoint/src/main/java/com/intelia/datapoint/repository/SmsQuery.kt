@@ -8,7 +8,6 @@ import com.intelia.datapoint.models.SmsDataPoint
 import io.reactivex.Observable
 import java.util.*
 import java.util.regex.Pattern
-import kotlin.collections.HashMap
 import kotlin.collections.LinkedHashMap
 
 open class SmsQuery {
@@ -53,8 +52,8 @@ open class SmsQuery {
                                 else {
                                     smsList[dataPointCategory.category] = mutableListOf(Sms(number, body, dateFormat))
                                 }
+                                return@outter
                             }
-                            return@outter
                         }
                     }
 
