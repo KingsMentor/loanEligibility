@@ -11,9 +11,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import com.intelia.datapoint.impl.QueryImpl
 import com.intelia.loansdk.vm.MainVM
 import com.intelia.loansdk.vm.VMFactory
+import com.intelia.sdk.loanEligibility.LoanEligibility
 import kotlinx.android.synthetic.main.activity_main.*
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.belvi.myapplication.AlertRecyclerAdapter
@@ -88,6 +88,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        LoanEligibility.init(this)
         mainVM = ViewModelProviders.of(this, VMFactory).get(MainVM::class.java)
 
         mainVM.smsDataPoint.observe(this, Observer { res ->

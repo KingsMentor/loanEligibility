@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.intelia.datapoint.models.SmsDataPoint
+import com.intelia.sdk.loanEligibility.models.SmsDataPoint
 import com.intelia.loansdk.R
 import kotlinx.android.synthetic.main.alert_item.view.title
 import kotlinx.android.synthetic.main.category_item.view.*

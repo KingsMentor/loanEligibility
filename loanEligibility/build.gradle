@@ -43,4 +43,34 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:2.4.0"
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
     implementation "com.squareup.okhttp3:logging-interceptor:3.10.0"
+
 }
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'loanEligibility'
+
+    publishedGroupId = 'io.intelia.sdk'
+    libraryName = 'loanEligibility'
+    artifact = 'loanEligibility'
+
+    libraryDescription = 'Intelia Loan eligibility SDK'
+
+    siteUrl = 'https://github.com/KingsMentor/loanEligibility'
+    gitUrl = 'https://github.com/KingsMentor/loanEligibility'
+
+    libraryVersion = '1.1.0'
+
+    developerId = 'kingsmentor'
+    developerName = 'Nosakhare Belvi'
+    developerEmail = 'nosakharebelvi@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

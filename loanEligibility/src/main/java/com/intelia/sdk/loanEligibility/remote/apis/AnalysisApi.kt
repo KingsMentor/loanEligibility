@@ -1,10 +1,9 @@
-package com.intelia.datapoint.remote.apis
+package com.intelia.sdk.loanEligibility.remote.apis
 
-import com.intelia.datapoint.remote.NetworkResponses
-import com.intelia.datapoint.models.DataRequest
+import com.intelia.sdk.loanEligibility.remote.NetworkResponses
+import com.intelia.sdk.loanEligibility.models.DataRequest
 import io.reactivex.Observable
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface AnalysisApi {

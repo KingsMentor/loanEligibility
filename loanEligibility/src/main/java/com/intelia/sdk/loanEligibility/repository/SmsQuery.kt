@@ -1,10 +1,10 @@
-package com.intelia.datapoint.repository
+package com.intelia.sdk.loanEligibility.repository
 
 import android.content.Context
 import android.provider.Telephony
-import com.intelia.datapoint.models.FilterParams
-import com.intelia.datapoint.models.Sms
-import com.intelia.datapoint.models.SmsDataPoint
+import com.intelia.sdk.loanEligibility.models.FilterParams
+import com.intelia.sdk.loanEligibility.models.Sms
+import com.intelia.sdk.loanEligibility.models.SmsDataPoint
 import io.reactivex.Observable
 import java.util.*
 import java.util.regex.Pattern
@@ -48,9 +48,21 @@ open class SmsQuery {
                             }
                             if (numberMatch && contentMatch) {
                                 if(smsList.containsKey(dataPointCategory.category))
-                                    smsList[dataPointCategory.category]?.add(Sms(number, body, dateFormat))
+                                    smsList[dataPointCategory.category]?.add(
+                                        Sms(
+                                            number,
+                                            body,
+                                            dateFormat
+                                        )
+                                    )
                                 else {
-                                    smsList[dataPointCategory.category] = mutableListOf(Sms(number, body, dateFormat))
+                                    smsList[dataPointCategory.category] = mutableListOf(
+                                        Sms(
+                                            number,
+                                            body,
+                                            dateFormat
+                                        )
+                                    )
                                 }
                                 return@outter
                             }
@@ -59,7 +71,12 @@ open class SmsQuery {
 
                 }
                 c.close()
-                emitter.onNext(smsList.map { SmsDataPoint(it.key,it.value) }.toMutableList())
+                emitter.onNext(smsList.map {
+                    SmsDataPoint(
+                        it.key,
+                        it.value
+                    )
+                }.toMutableList())
             }
             emitter.onComplete()
         }

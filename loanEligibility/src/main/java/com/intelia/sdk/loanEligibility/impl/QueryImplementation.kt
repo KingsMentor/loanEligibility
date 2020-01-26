@@ -1,15 +1,17 @@
-package com.intelia.datapoint.impl
+package com.intelia.sdk.loanEligibility.impl
 
 import android.content.Context
-import com.intelia.datapoint.models.*
-import com.intelia.datapoint.remote.ApiClient
-import com.intelia.datapoint.remote.apis.AnalysisApi
-import com.intelia.datapoint.repository.SmsQuery
+import com.intelia.loanEligibility.models.*
+import com.intelia.sdk.loanEligibility.models.*
+import com.intelia.sdk.loanEligibility.remote.ApiClient
+import com.intelia.sdk.loanEligibility.remote.apis.AnalysisApi
+import com.intelia.sdk.loanEligibility.repository.SmsQuery
 import io.reactivex.Observable
 import java.util.*
 import java.util.regex.Pattern
 
-internal class QueryImplementation(private val api: AnalysisApi = ApiClient.retrofit.create(AnalysisApi::class.java)) {
+internal class QueryImplementation(private val api: AnalysisApi = ApiClient.retrofit.create(
+    AnalysisApi::class.java)) {
 
     fun calculateEligibility(context: Context): Observable<Eligibility> {
         return SmsQuery().smsSearch(context)
@@ -28,9 +30,21 @@ internal class QueryImplementation(private val api: AnalysisApi = ApiClient.retr
                 }
                 body
             }.map {
-                it.addAll(relevantApp().apps.map { Request("", it, "", Date(), false) })
+                it.addAll(relevantApp().apps.map {
+                    Request(
+                        "",
+                        it,
+                        "",
+                        Date(),
+                        false
+                    )
+                })
                 it
-            }.flatMap { api.calculateEligibility(DataRequest(it)) }
+            }.flatMap { api.calculateEligibility(
+                DataRequest(
+                    it
+                )
+            ) }
             .map {
                 it
             }

@@ -4,8 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.intelia.datapoint.models.Sms
-import com.intelia.datapoint.models.SmsDataPoint
+import com.intelia.sdk.loanEligibility.models.Sms
 import com.intelia.loansdk.R
 import kotlinx.android.synthetic.main.alert_item.view.*
 

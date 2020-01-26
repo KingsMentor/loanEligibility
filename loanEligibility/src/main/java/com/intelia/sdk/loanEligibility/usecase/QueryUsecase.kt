@@ -1,9 +1,8 @@
-package com.intelia.datapoint.usecase
+package com.intelia.sdk.loanEligibility.usecase
 
-import android.content.Context
-import com.intelia.datapoint.models.Eligibility
-import com.intelia.datapoint.models.RelevantApps
-import com.intelia.datapoint.models.SmsDataPoint
+import com.intelia.sdk.loanEligibility.models.Eligibility
+import com.intelia.sdk.loanEligibility.models.RelevantApps
+import com.intelia.sdk.loanEligibility.models.SmsDataPoint
 import io.reactivex.Observable
 
 interface QueryUsecase {

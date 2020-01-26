@@ -4,7 +4,7 @@ package com.intelia.loansdk.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.intelia.datapoint.LoanEligibility
+import com.intelia.sdk.loanEligibility.LoanEligibility
 import com.intelia.loansdk.App
 
 object VMFactory : ViewModelProvider.NewInstanceFactory() {

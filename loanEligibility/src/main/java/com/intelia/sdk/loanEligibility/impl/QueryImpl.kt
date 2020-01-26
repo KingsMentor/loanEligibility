@@ -1,10 +1,10 @@
-package com.intelia.datapoint.impl
+package com.intelia.sdk.loanEligibility.impl
 
 import android.content.Context
-import com.intelia.datapoint.models.Eligibility
-import com.intelia.datapoint.models.RelevantApps
-import com.intelia.datapoint.models.SmsDataPoint
-import com.intelia.datapoint.usecase.QueryUsecase
+import com.intelia.sdk.loanEligibility.models.Eligibility
+import com.intelia.sdk.loanEligibility.models.RelevantApps
+import com.intelia.sdk.loanEligibility.models.SmsDataPoint
+import com.intelia.sdk.loanEligibility.usecase.QueryUsecase
 import io.reactivex.Observable
 
 open class QueryImpl : QueryUsecase {
@@ -34,7 +34,6 @@ open class QueryImpl : QueryUsecase {
     override fun isRelevantSms(sms: String): Boolean {
         return queryImplementation.isRelevantSms(sms)
     }
-
     override fun isRelevantApp(packageName: String): Boolean {
         return queryImplementation.isRelevantApp(packageName)
     }
